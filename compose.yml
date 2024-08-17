@@ -1,0 +1,31 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./nginx/docker/Dockerfile
+    ports:
+      - 8000:80
+    volumes:
+      - ./src:/var/www/html
+  php:
+    container_name: php
+    build:
+      context: .
+      dockerfile: ./php/docker/Dockerfile
+    volumes:
+      - ./src:/var/www/html
+  db:
+    container_name: db
+    build:
+      context: .
+      dockerfile: ./mysql/docker/Dockerfile
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    volumes:
+      - ./mysql/data:/var/lib/mysql
